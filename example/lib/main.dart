@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Center(
             child: Column(
           children: [
-            const Text("Test de l'API de Leads2Keys"),
+            const Text("API de Leads2Keys"),
             if (account == null)
               ElevatedButton(
                   onPressed: () async {

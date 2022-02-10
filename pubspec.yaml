@@ -30,6 +30,7 @@ dependencies:
 
   http: any
   webview_flutter: any
+  flutter_secure_storage: any
 
 
 dev_dependencies:
