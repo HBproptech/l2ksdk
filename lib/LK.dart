@@ -19,7 +19,20 @@ class LK {
     LK.clientSecret = clientSecret;
   }
 
-  void account(String url) async {
+  static Future<LKAccount?> signIn(BuildContext context) => showDialog(
+      context: context,
+      builder: (context) => Dialog(
+          child: WebView(
+              initialUrl: '$authorizationApi?client_id=$clientId',
+              navigationDelegate: (req) async {
+                if (req.url.contains('l2k://')) {
+                  Navigator.pop(context, await _account(req.url));
+                  return NavigationDecision.prevent;
+                }
+                return NavigationDecision.navigate;
+              })));
+
+  static Future<LKAccount?> _account(String url) async {
     if (url.contains('code')) {
       final uri = Uri.parse(url);
       final code = uri.queryParameters['code'];
@@ -34,20 +47,10 @@ class LK {
         'content_type': 'application/json'
       });
       final json = jsonDecode(response.body);
-      final String accessToken = json["access_token"];
-      final String refreshToken = json["refresh_token"];
+      return LKAccount.fromJson(json);
+      //final String accessToken = json["access_token"];
+      //final String refreshToken = json["refresh_token"];
     }
+    return null;
   }
-
-  static Future<LKAccount?> signIn(BuildContext context) => showDialog(
-      context: context,
-      builder: (context) => Dialog(
-          child: WebView(
-              initialUrl: '$authorizationApi?client_id=$clientId',
-              navigationDelegate: (req) async {
-                if (req.url.contains('l2k://')) {
-                  return NavigationDecision.prevent;
-                }
-                return NavigationDecision.navigate;
-              })));
 }

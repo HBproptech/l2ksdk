@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:l2ksdk/l2ksdk.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
   LK.credentials(
@@ -34,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  LKAccount? account;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,13 +44,19 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
           children: [
             const Text("Test de l'API de Leads2Keys"),
-            ElevatedButton(
-                onPressed: () async {
-                  final account = await LK.signIn(context);
-                },
-                child: const Text("Se connecter")),
-            ElevatedButton(
-                onPressed: () {}, child: const Text("Récupérer les mandats"))
+            if (account == null)
+              ElevatedButton(
+                  onPressed: () async {
+                    account = await LK.signIn(context);
+                    setState(() {});
+                  },
+                  child: const Text("Se connecter")),
+            if (account != null)
+              ElevatedButton(
+                  onPressed: () {
+                    final mandates = account!.agency.getMandates(account!);
+                  },
+                  child: const Text("Afficher les mandats"))
           ],
         )));
   }
