@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:l2ksdk/l2ksdk.dart';
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   LK.credentials(
       clientId: 'flutter',
       clientSecret: 'b076542a-13dd-4d7d-aed6-b4a741f6de8f');
+  LK.signOut(); // 4debug
   runApp(const MyApp());
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -18,46 +24,46 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Test API L2K'),
+      home: const Home(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Home> createState() => _HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeState extends State<Home> {
   LKAccount? account;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: const Text('Leads2Keys API test'),
         ),
         body: Center(
             child: Column(
           children: [
-            const Text("API de Leads2Keys"),
             if (account == null)
               ElevatedButton(
                   onPressed: () async {
                     account = await LK.signIn(context);
                     setState(() {});
                   },
-                  child: const Text("Se connecter")),
+                  child: const Text('Se connecter')),
             if (account != null)
               ElevatedButton(
                   onPressed: () {
-                    final mandates = account!.agency.getMandates(account!);
+                    //final mandates = account!.agency.getMandates(account!);
                   },
-                  child: const Text("Afficher les mandats"))
+                  child: const Text('Afficher les mandats'))
           ],
         )));
   }
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////

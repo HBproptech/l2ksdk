@@ -1,5 +1,5 @@
-export 'LK.dart';
-export 'LKAccount.dart';
-export 'LKAgency.dart';
-export 'LKUser.dart';
-export 'LKMandate.dart';
+export 'lk.dart';
+export 'lk.account.dart';
+export 'lk.agency.dart';
+export 'lk.user.dart';
+export 'lk.mandate.dart';

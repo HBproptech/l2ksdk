@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import 'LKAccount.dart';
-import 'LKMandate.dart';
+import 'lk.account.dart';
+import 'lk.mandate.dart';
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 class LKAgency {
   String id;
   String name;
@@ -27,7 +29,7 @@ class LKAgency {
         email: json["email"],
         address: json["address"]);
   }
-
+/*
   Future<List<LKMandate>> getMandates(LKAccount account) async {
     http.Response response = await http.get(Uri.parse('/mandates'),
         headers: {'Authorization': 'Bearer ${account.token}'});
@@ -39,4 +41,7 @@ class LKAgency {
       return [];
     }
   }
+*/
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
