@@ -3,6 +3,9 @@ import 'package:l2ksdk/l2ksdk.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
+  LK.credentials(
+      clientId: 'flutter',
+      clientSecret: 'b076542a-13dd-4d7d-aed6-b4a741f6de8f');
   runApp(const MyApp());
 }
 
@@ -31,9 +34,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String clientId = "flutter";
-  String clientSecret = "b076542a-13dd-4d7d-aed6-b4a741f6de8f";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
