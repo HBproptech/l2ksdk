@@ -55,12 +55,14 @@ class _HomeState extends State<Home> {
                     setState(() {});
                   },
                   child: const Text('Se connecter')),
-            if (account != null)
+            if (account != null) ...[
+              Text('${account!.user.firstname} ${account!.user.lastname}'),
               ElevatedButton(
                   onPressed: () {
                     //final mandates = account!.agency.getMandates(account!);
                   },
                   child: const Text('Afficher les mandats'))
+            ]
           ],
         )));
   }
