@@ -8,7 +8,6 @@ void main() {
   LK.credentials(
       clientId: 'flutter',
       clientSecret: 'b076542a-13dd-4d7d-aed6-b4a741f6de8f');
-  LK.signOut(); // 4debug
   runApp(const MyApp());
 }
 
@@ -42,9 +41,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Leads2Keys API test'),
-        ),
+        appBar: AppBar(title: const Text('Leads2Keys API test')),
         body: Center(
             child: Column(
           children: [
@@ -61,7 +58,15 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     //final mandates = account!.agency.getMandates(account!);
                   },
-                  child: const Text('Afficher les mandats'))
+                  child: const Text('Afficher les mandats')),
+              ElevatedButton(
+                  onPressed: () {
+                    LK.signOut();
+                    setState(() {
+                      account = null;
+                    });
+                  },
+                  child: const Text('Se deconnecter'))
             ]
           ],
         )));
