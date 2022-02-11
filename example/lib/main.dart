@@ -38,6 +38,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   LKAccount? account;
+  List<LKMandate> mandates = [];
+  Widget get space => const SizedBox(height: 20);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +47,7 @@ class _HomeState extends State<Home> {
         body: Center(
             child: Column(
           children: [
+            space,
             if (account == null)
               ElevatedButton(
                   onPressed: () async {
@@ -54,11 +57,16 @@ class _HomeState extends State<Home> {
                   child: const Text('Se connecter')),
             if (account != null) ...[
               Text('${account!.user.firstname} ${account!.user.lastname}'),
+              space,
               ElevatedButton(
-                  onPressed: () {
-                    //final mandates = account!.agency.getMandates(account!);
+                  onPressed: () async {
+                    mandates.clear();
+                    for (final a in account!.agencies) {
+                      mandates.addAll(await account!.mandates(agency: a));
+                    }
                   },
                   child: const Text('Afficher les mandats')),
+              space,
               ElevatedButton(
                   onPressed: () {
                     LK.signOut();
@@ -66,7 +74,8 @@ class _HomeState extends State<Home> {
                       account = null;
                     });
                   },
-                  child: const Text('Se deconnecter'))
+                  child: const Text('Se deconnecter')),
+              if (mandates.isNotEmpty) ...[space]
             ]
           ],
         )));

@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:l2ksdk/lk.mandate.dart';
 import 'package:l2ksdk/lk.token.dart';
+import 'package:http/http.dart' as http;
 
 import 'lk.agency.dart';
+import 'lk.dart';
 import 'lk.user.dart';
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -11,6 +16,16 @@ class LKAccount {
   String id;
   LKUser user;
   List<LKAgency> agencies;
+
+  Future<Iterable<LKMandate>> mandates({required LKAgency agency}) async {
+    final response = await http.get(Uri.parse(LK.mandatesApi(agency)),
+        headers: {'Authorization': 'Bearer ${token.access}'});
+    final json = jsonDecode(response.body);
+    if (response.statusCode != 200) throw json['error'];
+    final List<dynamic> md = json;
+    if (md.isEmpty) return [];
+    return md.map((j) => LKMandate.fromJson(j));
+  }
 
   LKAccount({
     required this.token,

@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
+import 'package:l2ksdk/l2ksdk.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'lk.account.dart';
 import 'package:http/http.dart' as http;
 
 import 'lk.token.dart';
@@ -19,6 +19,8 @@ class LK {
   static String get authorizationApi => '$server/auth/authorization';
   static String get tokenApi => '$server/auth/token';
   static String get accountApi => '$server/account';
+  static String mandatesApi(LKAgency agency) =>
+      '$server/agency/${agency.id}/mandates';
 
   static String clientId = '';
   static String clientSecret = '';
@@ -32,7 +34,10 @@ class LK {
   static Future<LKAccount?> silentSignIn() async {
     final data = await storage.read(key: storageKey);
     if (data == null) return null;
-    return LKAccount.fromJson(jsonDecode(data));
+    final account = LKAccount.fromJson(jsonDecode(data));
+    await _account(account.token);
+    // TODO: refresh token if needed
+    return account;
   }
 
   static Future<LKAccount?> signIn(BuildContext context) async {
@@ -65,10 +70,8 @@ class LK {
   }
 
   static Future<LKAccount> _account(LKToken token) async {
-    final response = await http.get(Uri.parse(accountApi), headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer ${token.access}'
-    });
+    final response = await http.get(Uri.parse(accountApi),
+        headers: {'Authorization': 'Bearer ${token.access}'});
     final json = jsonDecode(response.body);
     if (response.statusCode != 200) throw json['error'];
     return LKAccount.fromJson(json, token: token);
