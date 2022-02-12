@@ -45,49 +45,47 @@ class _HomeState extends State<Home> {
     return Scaffold(
         appBar: AppBar(title: const Text('Leads2Keys API test')),
         body: Center(
-            child: Column(
-          children: [
+            child: Column(children: [
+          space,
+          if (account == null)
+            ElevatedButton(
+                onPressed: () async {
+                  account = await LK.signIn(context);
+                  setState(() {});
+                },
+                child: const Text('Se connecter')),
+          if (account != null) ...[
+            Text('${account!.user.firstname} ${account!.user.lastname}'),
             space,
-            if (account == null)
-              ElevatedButton(
-                  onPressed: () async {
-                    account = await LK.signIn(context);
-                    setState(() {});
-                  },
-                  child: const Text('Se connecter')),
-            if (account != null) ...[
-              Text('${account!.user.firstname} ${account!.user.lastname}'),
-              space,
-              ElevatedButton(
-                  onPressed: () async {
+            ElevatedButton(
+                onPressed: () async {
+                  mandates.clear();
+                  for (final a in account!.agencies) {
+                    mandates.addAll(await account!.mandates(agency: a));
+                  }
+                  setState(() {});
+                },
+                child: const Text('Afficher les mandats')),
+            space,
+            ElevatedButton(
+                onPressed: () {
+                  LK.signOut();
+                  setState(() {
+                    account = null;
                     mandates.clear();
-                    for (final a in account!.agencies) {
-                      mandates.addAll(await account!.mandates(agency: a));
-                    }
-                    setState(() {});
-                  },
-                  child: const Text('Afficher les mandats')),
+                  });
+                },
+                child: const Text('Se deconnecter')),
+            if (mandates.isNotEmpty) ...[
               space,
-              ElevatedButton(
-                  onPressed: () {
-                    LK.signOut();
-                    setState(() {
-                      account = null;
-                      mandates.clear();
-                    });
-                  },
-                  child: const Text('Se deconnecter')),
-              if (mandates.isNotEmpty) ...[
-                space,
-                ...mandates.map((m) => Column(children: [
-                      Text('${m.project.type} ${m.good.type}'),
-                      Text(m.place.address),
-                      space
-                    ]))
-              ]
+              ...mandates.map((m) => Column(children: [
+                    Text('${m.project.type} ${m.good.type}'),
+                    Text(m.place.address),
+                    space
+                  ]))
             ]
-          ],
-        )));
+          ]
+        ])));
   }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
