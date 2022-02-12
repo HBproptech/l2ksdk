@@ -64,6 +64,7 @@ class _HomeState extends State<Home> {
                     for (final a in account!.agencies) {
                       mandates.addAll(await account!.mandates(agency: a));
                     }
+                    setState(() {});
                   },
                   child: const Text('Afficher les mandats')),
               space,
