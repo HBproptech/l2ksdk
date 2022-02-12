@@ -35,9 +35,14 @@ class LK {
     final data = await storage.read(key: storageKey);
     if (data == null) return null;
     final account = LKAccount.fromJson(jsonDecode(data));
-    await _account(account.token);
-    // TODO: refresh token if needed
-    return account;
+    try {
+      account.token = await _refresh(account.token);
+      await storage.write(key: storageKey, value: jsonEncode(account.toJson()));
+      return account;
+    } catch (error) {
+      dev.log('silentSignIn()', error: error);
+    }
+    return null;
   }
 
   static Future<LKAccount?> signIn(BuildContext context) async {
@@ -75,6 +80,20 @@ class LK {
     final json = jsonDecode(response.body);
     if (response.statusCode != 200) throw json['error'];
     return LKAccount.fromJson(json, token: token);
+  }
+
+  static Future<LKToken> _refresh(LKToken token) async {
+    final response = await http.post(Uri.parse(tokenApi), body: {
+      'client_id': clientId,
+      'client_secret': clientSecret,
+      'grant_type': 'refresh_token',
+      'refresh_token': token.refresh
+    }, headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+    final json = jsonDecode(response.body);
+    if (response.statusCode != 200) throw json['error'];
+    return LKToken.fromJson(json);
   }
 
   static Future<LKToken> _token(String url) async {

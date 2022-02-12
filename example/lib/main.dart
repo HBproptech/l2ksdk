@@ -72,10 +72,18 @@ class _HomeState extends State<Home> {
                     LK.signOut();
                     setState(() {
                       account = null;
+                      mandates.clear();
                     });
                   },
                   child: const Text('Se deconnecter')),
-              if (mandates.isNotEmpty) ...[space]
+              if (mandates.isNotEmpty) ...[
+                space,
+                ...mandates.map((m) => Column(children: [
+                      Text('${m.project.type} ${m.good.type}'),
+                      Text(m.place.address),
+                      space
+                    ]))
+              ]
             ]
           ],
         )));

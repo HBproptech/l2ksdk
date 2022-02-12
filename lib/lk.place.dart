@@ -8,7 +8,7 @@ class LKPlace {
 
   Map<String, dynamic> toJson() {
     return {
-      'place': place,
+      'id': place,
       'address': address,
       'location': location.toJson(),
     };
@@ -16,7 +16,7 @@ class LKPlace {
 
   factory LKPlace.fromJson(Map<String, dynamic> map) {
     return LKPlace(
-        place: map['place'] ?? '',
+        place: map['place'] ?? map['id'] ?? '',
         address: map['address'] ?? '',
         location: LKLocation.fromJson(map['location']));
   }
