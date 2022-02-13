@@ -14,8 +14,8 @@ import 'lk.token.dart';
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 class LK {
   static const storage = FlutterSecureStorage();
-  static const storageKey = 'l2k.account';
-  static const server = 'http://account1.l2k.io:4002'; // 'https://api.l2k.io';
+  static const storageKey = 'l2k.account.token';
+  static const server = 'https://api.l2k.io';
   static String get authorizationApi => '$server/auth/authorization';
   static String get tokenApi => '$server/auth/token';
   static String get accountApi => '$server/account';
@@ -34,11 +34,11 @@ class LK {
   static Future<LKAccount?> silentSignIn() async {
     final data = await storage.read(key: storageKey);
     if (data == null) return null;
-    final account = LKAccount.fromJson(jsonDecode(data));
+    final token = LKToken.fromJson(jsonDecode(data));
     try {
-      account.token = await _refresh(account.token);
-      await storage.write(key: storageKey, value: jsonEncode(account.toJson()));
-      return account;
+      final ntoken = await _refresh(token);
+      await storage.write(key: storageKey, value: jsonEncode(ntoken.toJson()));
+      return _account(ntoken);
     } catch (error) {
       dev.log('silentSignIn()', error: error);
     }
@@ -56,10 +56,13 @@ class LK {
                 navigationDelegate: (req) async {
                   if (req.url.contains('l2k://')) {
                     try {
-                      final token = await _token(req.url);
-                      final account = await _account(token);
+                      final uri = Uri.parse(req.url);
+                      final code = uri.queryParameters['code']!;
+                      final state = uri.queryParameters['state']!;
+                      final token = await _token(code: code, state: state);
                       await storage.write(
-                          key: storageKey, value: jsonEncode(account.toJson()));
+                          key: storageKey, value: jsonEncode(token.toJson()));
+                      final account = await _account(token);
                       Navigator.pop(context, account);
                     } catch (error) {
                       dev.log(error.toString());
@@ -96,10 +99,8 @@ class LK {
     return LKToken.fromJson(json);
   }
 
-  static Future<LKToken> _token(String url) async {
-    final uri = Uri.parse(url);
-    final code = uri.queryParameters['code'];
-    final state = uri.queryParameters['state'];
+  static Future<LKToken> _token(
+      {required String code, required String state}) async {
     final response = await http.post(Uri.parse(tokenApi), body: {
       'client_id': clientId,
       'client_secret': clientSecret,
