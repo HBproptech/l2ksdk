@@ -29,7 +29,7 @@ You can call the LK.signIn() method that will popup a form for the user signin a
 
 ## Silent signin with a previously logged account
 
-When returning to your app you can use the silentSignIn method, which will silently returns the account and refresh the token without any user interaction.
+When returning to your app you can use the silentSignIn method, which will silently returns the account without any user interaction.
 
 ```dart
   final account = await LK.silentSignIn();
