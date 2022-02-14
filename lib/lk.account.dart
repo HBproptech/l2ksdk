@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:l2ksdk/lk.mandate.dart';
 import 'package:l2ksdk/lk.token.dart';
 import 'package:http/http.dart' as http;
@@ -25,6 +26,12 @@ class LKAccount {
     final List<dynamic> md = json;
     if (md.isEmpty) return [];
     return md.map((j) => LKMandate.fromJson(j));
+  }
+
+  Widget document(String id) {
+    return Image(
+        image: NetworkImage(LK.documentApi(id),
+            headers: {'Authorization': 'Bearer ${token.access}'}));
   }
 
   LKAccount({

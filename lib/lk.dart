@@ -21,6 +21,7 @@ class LK {
   static String get accountApi => '$server/account';
   static String mandatesApi(LKAgency agency) =>
       '$server/agency/${agency.id}/mandates';
+  static String documentApi(String id) => '$server/document/$id';
 
   static String clientId = '';
   static String clientSecret = '';
@@ -29,10 +30,6 @@ class LK {
       {required String clientId, required String clientSecret}) {
     LK.clientId = clientId;
     LK.clientSecret = clientSecret;
-  }
-
-  static Widget document(String id) {
-    return Image(image: NetworkImage('$server/document/$id'));
   }
 
   static Future<LKAccount?> silentSignIn() async {

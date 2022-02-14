@@ -57,6 +57,12 @@ The LKMandate class itself contains all the informations you need.
   LKGood good;
   ```
 
+## Retrieving images
+
+```dart
+  final Widget image = account.document(imageId);
+  ```
+
 # Examples
 
 For more examples, you can take a look at the [example app](https://github.com/HBproptech/l2ksdk/tree/master/example)
