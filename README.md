@@ -1,6 +1,6 @@
 # Leads2Keys - Flutter SDK
 
-This package is for the partners of [Leads2Keys](https://leads2keys.com/) real-estate survey app. 
+This package is for [Leads2Keys](https://leads2keys.com/) real-estate survey app partners. 
 
 # Usage
 
