@@ -1,4 +1,4 @@
-# Leads 2 Keys - API
+# Leads 2 Keys - Flutter SDK
 
 This package is for partners of the real-estate prospecting app [Leads2Keys](https://leads2keys.com/). 
 
@@ -14,7 +14,7 @@ You need to setup your credentials using LK.credentials().
 You can contact us at apil2k@leads2keys.com to request your credentials.
 
 ```dart
-LK.credentials(clientId: 'your client id', clientSecret: 'your client secret');
+  LK.credentials(clientId: 'your client id', clientSecret: 'your client secret');
 ```
 
 ## User signin
