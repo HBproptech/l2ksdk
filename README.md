@@ -71,3 +71,8 @@ For more detailled information you can take a look at the [example app](https://
 
 [Leads2Keys API](https://api.l2k.io/documentation)
 
+
+# Copyright 
+2022 HB PropTech & innovation
+
+[HBproptech.com](https://hbproptech.com/)
