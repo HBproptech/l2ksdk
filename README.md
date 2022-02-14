@@ -19,7 +19,7 @@ LK.credentials(clientId: 'your client id', clientSecret: 'your client secret');
 
 ## User signin
 
-You can call the LK.signIn() method that will popup a form for the user signin and authorization.
+You can call the LK.signIn() method that will popup a form for user signin and authorization.
 
 
 ```dart
