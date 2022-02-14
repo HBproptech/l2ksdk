@@ -1,4 +1,4 @@
-# Leads 2 Keys - Flutter SDK
+# Leads2Keys - Flutter SDK
 
 This package is for partners of the real-estate prospecting app [Leads2Keys](https://leads2keys.com/). 
 
