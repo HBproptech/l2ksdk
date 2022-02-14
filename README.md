@@ -11,11 +11,11 @@ This package is for partners of the real-estate prospecting app [Leads2Keys](htt
 Leads2KeysApi uses **OAuth02** to successfully connect users. 
 You need to setup your credentials using **LK.credentials()**.
 
-*You can contact us at apil2k@leads2keys.com to request your credentials.*
-
 ```dart
   LK.credentials(clientId: 'your client id', clientSecret: 'your client secret');
 ```
+*You can contact us at apil2k@leads2keys.com to request your credentials.*
+
 
 ## User signin
 
