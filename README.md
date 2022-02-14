@@ -59,7 +59,7 @@ The LKMandate class itself contains all the informations you need.
 
 # Examples
 
-For more examples, you can look at the [example app](https://github.com/HBproptech/l2ksdk/tree/master/example)
+For more examples, you can take a look at the [example app](https://github.com/HBproptech/l2ksdk/tree/master/example)
 
 # Rest API 
 
