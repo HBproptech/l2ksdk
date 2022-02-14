@@ -35,7 +35,7 @@ When returning to your app you can use the silentSignIn method, which will silen
   final account = await LK.silentSignIn();
 ```
 
-## Signout from a logged account
+## Signout from a previously logged account
 
 ```dart
   await LK.signOut();
