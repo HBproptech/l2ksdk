@@ -4,12 +4,12 @@ This package is for partners of the real-estate prospecting app [Leads2Keys](htt
 
 # Usage
 
-  Add the package as a dependency in your pubspec.yaml and run flutter pub get. 
+  Add the package as a dependency in your **pubspec.yaml** and run **flutter pub get**. 
 
 ## Setup credentials
 
-Leads2KeysApi uses OAuth02 to successfully connect users. 
-You need to setup your credentials using LK.credentials().
+Leads2KeysApi uses **OAuth02** to successfully connect users. 
+You need to setup your credentials using **LK.credentials()**.
 
 You can contact us at apil2k@leads2keys.com to request your credentials.
 
@@ -63,5 +63,5 @@ For more examples, you can see the [example app](https://github.com/HBproptech/l
 
 # Rest API 
 
-[API L2K](https://api.l2k.io/documentation)
+[Leads2Keys API](https://api.l2k.io/documentation)
 
