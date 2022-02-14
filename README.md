@@ -42,7 +42,7 @@ When returning to your app you can use the silentSignIn method, which will silen
   ```
 ## Access mandates
 
-Then using the account you can retrieve the mandates by agencies.
+Then using the account you can retrieve the mandates by agency.
 
 ```dart
  final mandates = await account.mandates(agency:account.agencies.first);
