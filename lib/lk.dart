@@ -31,6 +31,10 @@ class LK {
     LK.clientSecret = clientSecret;
   }
 
+  static Widget document(String id) {
+    return Image(image: NetworkImage('$server/document/$id'));
+  }
+
   static Future<LKAccount?> silentSignIn() async {
     final data = await storage.read(key: storageKey);
     if (data == null) return null;
