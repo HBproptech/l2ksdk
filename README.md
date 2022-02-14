@@ -4,7 +4,7 @@ This package is for partners of the real-estate prospecting app [Leads2Keys](htt
 
 # Usage
 
-  Add the package as a dependency in your **pubspec.yaml** and run **flutter pub get**. 
+  Add the package as dependency in your **pubspec.yaml** and run **flutter pub get**. 
 
 ## Setup credentials
 
