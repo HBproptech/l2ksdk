@@ -39,53 +39,89 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   LKAccount? account;
   List<LKMandate> mandates = [];
-  Widget get space => const SizedBox(height: 20);
+  Widget get ____space____ => const SizedBox(height: 20);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text('Leads2Keys API test')),
-        body: Center(
-            child: Column(children: [
-          space,
-          if (account == null)
-            ElevatedButton(
-                onPressed: () async {
-                  account = await LK.signIn(context);
-                  setState(() {});
-                },
-                child: const Text('Se connecter')),
-          if (account != null) ...[
-            Text('${account!.user.firstname} ${account!.user.lastname}'),
-            space,
-            ElevatedButton(
-                onPressed: () async {
-                  mandates.clear();
-                  for (final a in account!.agencies) {
-                    mandates.addAll(await account!.mandates(agency: a));
-                  }
-                  setState(() {});
-                },
-                child: const Text('Afficher les mandats')),
-            space,
-            ElevatedButton(
-                onPressed: () {
-                  LK.signOut();
-                  setState(() {
-                    account = null;
-                    mandates.clear();
-                  });
-                },
-                child: const Text('Se deconnecter')),
-            if (mandates.isNotEmpty) ...[
-              space,
-              ...mandates.map((m) => Column(children: [
-                    Text('${m.project.type} ${m.good.type}'),
-                    Text(m.place.address),
-                    space
-                  ]))
-            ]
-          ]
-        ])));
+        body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Container(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ____space____,
+                      if (account == null)
+                        ElevatedButton(
+                            onPressed: () async {
+                              account = await LK.signIn(context);
+                              setState(() {});
+                            },
+                            child: const Text('Se connecter')),
+                      if (account != null) ...[
+                        Text(
+                            '${account!.user.firstname} ${account!.user.lastname}'),
+                        ____space____,
+                        ElevatedButton(
+                            onPressed: () async {
+                              mandates.clear();
+                              for (final a in account!.agencies) {
+                                mandates
+                                    .addAll(await account!.mandates(agency: a));
+                              }
+                              setState(() {});
+                            },
+                            child: const Text('Afficher les mandats')),
+                        ____space____,
+                        ElevatedButton(
+                            onPressed: () {
+                              LK.signOut();
+                              setState(() {
+                                account = null;
+                                mandates.clear();
+                              });
+                            },
+                            child: const Text('Se deconnecter')),
+                        if (mandates.isNotEmpty) ...[
+                          ____space____,
+                          ...mandates.map((m) => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('${m.project.type} ${m.good.type}',
+                                        style: const TextStyle(fontSize: 18)),
+                                    Text(m.place.address),
+                                    Wrap(
+                                        spacing: 5,
+                                        runSpacing: 5,
+                                        children: m.good.tags
+                                            .map((t) => Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10, right: 10),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: Colors.cyanAccent),
+                                                child: Text(t)))
+                                            .toList()),
+                                    ____space____,
+                                    SizedBox(
+                                        height: 64,
+                                        child: ListView.separated(
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, i) =>
+                                                Container(
+                                                    child: account!.document(
+                                                        m.good.pictures[i])),
+                                            separatorBuilder: (_, __) =>
+                                                const SizedBox(width: 5),
+                                            itemCount: m.good.pictures.length)),
+                                    ____space____
+                                  ]))
+                        ]
+                      ]
+                    ]))));
   }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////

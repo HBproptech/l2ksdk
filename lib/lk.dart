@@ -15,7 +15,7 @@ import 'lk.token.dart';
 class LK {
   static const storage = FlutterSecureStorage();
   static const storageKey = 'l2k.account.token';
-  static const server = 'https://api.l2k.io';
+  static const server = 'http://account1.l2k.io:4002'; // 'https://api.l2k.io';
   static String get authorizationApi => '$server/auth/authorization';
   static String get tokenApi => '$server/auth/token';
   static String get accountApi => '$server/account';
@@ -52,26 +52,33 @@ class LK {
     return await showDialog(
         context: context,
         builder: (context) => Dialog(
-            child: WebView(
-                initialUrl: '$authorizationApi?client_id=$clientId',
-                navigationDelegate: (req) async {
-                  if (req.url.contains('l2k://')) {
-                    try {
-                      final uri = Uri.parse(req.url);
-                      final code = uri.queryParameters['code']!;
-                      final state = uri.queryParameters['state']!;
-                      final token = await _token(code: code, state: state);
-                      await storage.write(
-                          key: storageKey, value: jsonEncode(token.toJson()));
-                      final account = await _account(token);
-                      Navigator.pop(context, account);
-                    } catch (error) {
-                      dev.log(error.toString());
-                    }
-                    return NavigationDecision.prevent;
-                  }
-                  return NavigationDecision.navigate;
-                })));
+            backgroundColor: Colors.transparent,
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                child: Container(
+                    height: 500,
+                    child: WebView(
+                        initialUrl: '$authorizationApi?client_id=$clientId',
+                        navigationDelegate: (req) async {
+                          if (req.url.contains('l2k://')) {
+                            try {
+                              final uri = Uri.parse(req.url);
+                              final code = uri.queryParameters['code']!;
+                              final state = uri.queryParameters['state']!;
+                              final token =
+                                  await _token(code: code, state: state);
+                              await storage.write(
+                                  key: storageKey,
+                                  value: jsonEncode(token.toJson()));
+                              final account = await _account(token);
+                              Navigator.pop(context, account);
+                            } catch (error) {
+                              dev.log(error.toString());
+                            }
+                            return NavigationDecision.prevent;
+                          }
+                          return NavigationDecision.navigate;
+                        })))));
   }
 
   static Future<void> signOut() async {

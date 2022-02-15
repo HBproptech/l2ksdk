@@ -60,6 +60,13 @@ class LKGood {
   String type;
   Map<String, dynamic> description;
   List<String> pictures;
+  List<String> get tags {
+    final List<String> tags = [];
+    for (final list in description.values)
+      if (list is Iterable) for (final String s in list) tags.add(s);
+    return tags;
+  }
+
   LKGood({
     required this.type,
     required this.description,
