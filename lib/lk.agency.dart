@@ -22,7 +22,7 @@ class LKAgency {
       'name': name,
       'type': type,
       'contact': contact.toJson(),
-      'geoloc': place.toJson(),
+      'place': place.toJson(),
     };
   }
 
@@ -32,7 +32,7 @@ class LKAgency {
         name: map['name'] ?? '',
         type: map['type'] ?? '',
         contact: LKAgencyContact.fromJson(map['contact']),
-        place: LKPlace.fromJson(map['geoloc']));
+        place: LKPlace.fromJson(map['place']));
   }
 }
 

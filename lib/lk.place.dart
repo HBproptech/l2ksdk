@@ -1,14 +1,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 class LKPlace {
-  String place;
+  String id;
   String address;
   LKLocation location;
-  LKPlace({required this.place, required this.address, required this.location});
+  LKPlace({required this.id, required this.address, required this.location});
 
   Map<String, dynamic> toJson() {
     return {
-      'id': place,
+      'id': id,
       'address': address,
       'location': location.toJson(),
     };
@@ -16,7 +16,7 @@ class LKPlace {
 
   factory LKPlace.fromJson(Map<String, dynamic> map) {
     return LKPlace(
-        place: map['place'] ?? map['id'] ?? '',
+        id: map['place'] ?? map['id'] ?? '',
         address: map['address'] ?? '',
         location: LKLocation.fromJson(map['location']));
   }
