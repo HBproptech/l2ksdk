@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:l2ksdk/l2ksdk.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -57,28 +59,32 @@ class LK {
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 child: Container(
                     height: 500,
-                    child: WebView(
-                        initialUrl: '$authorizationApi?client_id=$clientId',
-                        navigationDelegate: (req) async {
-                          if (req.url.contains('l2k://')) {
-                            try {
-                              final uri = Uri.parse(req.url);
-                              final code = uri.queryParameters['code']!;
-                              final state = uri.queryParameters['state']!;
-                              final token =
-                                  await _token(code: code, state: state);
-                              await storage.write(
-                                  key: storageKey,
-                                  value: jsonEncode(token.toJson()));
-                              final account = await _account(token);
-                              Navigator.pop(context, account);
-                            } catch (error) {
-                              dev.log(error.toString());
-                            }
-                            return NavigationDecision.prevent;
-                          }
-                          return NavigationDecision.navigate;
-                        })))));
+                    child: kIsWeb
+                        ? HtmlElementView(
+                            viewType: 'LK-login',
+                            onPlatformViewCreated: (int id) {})
+                        : WebView(
+                            initialUrl: '$authorizationApi?client_id=$clientId',
+                            navigationDelegate: (req) async {
+                              if (req.url.contains('l2k://')) {
+                                try {
+                                  final uri = Uri.parse(req.url);
+                                  final code = uri.queryParameters['code']!;
+                                  final state = uri.queryParameters['state']!;
+                                  final token =
+                                      await _token(code: code, state: state);
+                                  await storage.write(
+                                      key: storageKey,
+                                      value: jsonEncode(token.toJson()));
+                                  final account = await _account(token);
+                                  Navigator.pop(context, account);
+                                } catch (error) {
+                                  dev.log(error.toString());
+                                }
+                                return NavigationDecision.prevent;
+                              }
+                              return NavigationDecision.navigate;
+                            })))));
   }
 
   static Future<void> signOut() async {

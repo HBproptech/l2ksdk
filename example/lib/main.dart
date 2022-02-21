@@ -1,12 +1,30 @@
+import 'dart:html' as html;
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:l2ksdk/l2ksdk.dart';
+import 'dart:ui' as ui;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   LK.credentials(
-      clientId: 'your client id', clientSecret: 'your client secret');
+      clientId: 'l2ksdk', clientSecret: '86efde00-612a-4da7-b4e7-97b7a51f4788');
+  if (kIsWeb) {
+    // ignore: undefined_prefixed_name
+    ui.platformViewRegistry.registerViewFactory(
+        'LK-login',
+        (int viewId) => html.IFrameElement()
+          ..width = '640'
+          ..height = '500'
+          ..src = '${LK.authorizationApi}?client_id=${LK.clientId}'
+          ..style.border = 'none'
+          ..onLoad.listen((event) {
+            print(event.type);
+          }));
+  }
+
   runApp(const MyApp());
 }
 
