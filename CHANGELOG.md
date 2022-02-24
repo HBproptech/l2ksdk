@@ -2,6 +2,6 @@
 
 * First version.
 
-## 1.09
+## 1.0.9
 
 * added web support
