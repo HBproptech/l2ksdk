@@ -50,11 +50,14 @@ class LK {
     return null;
   }
 
-  static Future<LKAccount?> signIn(BuildContext context) async {
+  static Future<LKAccount?> signIn(BuildContext context,
+      {String? state}) async {
     final account = await silentSignIn();
     if (account != null) return account;
+    final authUrl =
+        '$authorizationApi?client_id=$clientId${state != null ? '&state=${Uri.encodeQueryComponent(state)}' : ''}';
     if (kIsWeb) {
-      html.window.location.href = '$authorizationApi?client_id=$clientId';
+      html.window.location.href = authUrl;
       return null;
     }
     return await showDialog(
@@ -67,7 +70,7 @@ class LK {
                     width: 400,
                     height: 500,
                     child: WebView(
-                        initialUrl: '$authorizationApi?client_id=$clientId',
+                        initialUrl: authUrl,
                         navigationDelegate: (req) async {
                           if (req.url.contains('l2k://')) {
                             try {
