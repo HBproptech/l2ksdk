@@ -14,3 +14,7 @@
 
 * added token redirect URI
 
+## 1.0.12
+
+* added codeSignIn redirect URI
+

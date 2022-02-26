@@ -89,8 +89,11 @@ class LK {
   }
 
   static Future<LKAccount?> codeSignIn(
-      {required String code, required String state}) async {
-    final token = await _token(code: code, state: state);
+      {required String code,
+      required String state,
+      String? redirectUri}) async {
+    final token =
+        await _token(code: code, state: state, redirectUri: redirectUri);
     await storage.write(key: storageKey, value: jsonEncode(token.toJson()));
     return await _account(token);
   }

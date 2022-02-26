@@ -1,7 +1,7 @@
 name: l2ksdk
 description: Leads2Keys Flutter
 homepage: https://github.com/HBproptech/l2ksdk
-version: 1.0.11
+version: 1.0.12
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
