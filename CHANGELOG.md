@@ -9,3 +9,8 @@
 ## 1.0.10
 
 * added state param in LK.signIn()
+
+## 1.0.11
+
+* added token redirect URI
+
