@@ -122,13 +122,16 @@ class LK {
   }
 
   static Future<LKToken> _token(
-      {required String code, required String state}) async {
+      {required String code,
+      required String state,
+      String? redirectUri}) async {
     final response = await http.post(Uri.parse(tokenApi), body: {
       'client_id': clientId,
       'client_secret': clientSecret,
       'grant_type': 'authorization_code',
       'code': code,
-      'state': state
+      'state': state,
+      ...redirectUri != null ? {'redirect_uri': redirectUri} : {}
     }, headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
