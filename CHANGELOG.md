@@ -18,3 +18,7 @@
 
 * added codeSignIn redirect URI
 
+## 1.0.13
+
+* added DocSize
+

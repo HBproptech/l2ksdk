@@ -28,11 +28,16 @@ class LKAccount {
     return md.map((j) => LKMandate.fromJson(j));
   }
 
-  Widget document(String id) {
-    return Image(
-        image: NetworkImage(LK.documentApi(id),
-            headers: {'Authorization': 'Bearer ${token.access}'}));
-  }
+  Widget document(String id, {DocSize size = DocSize.original}) =>
+      Image(image: documentProvider(id, size: size));
+
+  ImageProvider documentProvider(String id,
+          {DocSize size = DocSize.original}) =>
+      NetworkImage(
+          size == DocSize.original
+              ? LK.documentApi(id)
+              : LK.documentApi(id, size: size.value.toString()),
+          headers: {'Authorization': 'Bearer ${token.access}'});
 
   LKAccount({
     required this.token,
@@ -74,6 +79,20 @@ class LKAccount {
 
   @override
   int get hashCode => id.hashCode ^ user.hashCode ^ agencies.hashCode;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+enum DocSize { s128, s256, s512, original }
+
+extension DocSizeExt on DocSize {
+  static const Map<DocSize, int> _sizes = {
+    DocSize.original: 0,
+    DocSize.s128: 128,
+    DocSize.s256: 256,
+    DocSize.s512: 512
+  };
+  int get value => _sizes[this]!;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////

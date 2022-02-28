@@ -25,7 +25,8 @@ class LK {
   static String get accountApi => '$server/account';
   static String mandatesApi(LKAgency agency) =>
       '$server/agency/${agency.id}/mandates';
-  static String documentApi(String id) => '$server/document/$id';
+  static String documentApi(String id, {String? size}) =>
+      size != null ? '$server/document/$id/$size' : '$server/document/$id';
 
   static String clientId = '';
   static String clientSecret = '';
