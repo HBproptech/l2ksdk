@@ -8,12 +8,12 @@ class LKUser {
   String? picture;
 
   String get emoji => civility.isEmpty || civility == '?'
-      ? '�'
+      ? '🥷'
       : civility == 'M'
-          ? '�'
+          ? '👨'
           : civility == 'Mlle'
-              ? '�‍♀️'
-              : '�';
+              ? '👧'
+              : '👩';
   LKUser({
     required this.civility,
     required this.firstname,
