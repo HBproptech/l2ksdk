@@ -22,3 +22,9 @@
 
 * added DocSize
 
+## 1.0.14
+
+* added user.emoji
+  
+
+
