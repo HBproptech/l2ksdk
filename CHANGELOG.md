@@ -8,7 +8,7 @@
 
 ## 1.0.10
 
-* added state param in LK.signIn()
+* added optional state param in LK.signIn()
 
 ## 1.0.11
 

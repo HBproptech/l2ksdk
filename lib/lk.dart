@@ -19,7 +19,7 @@ import 'lk.token.dart';
 class LK {
   static const storage = FlutterSecureStorage();
   static const storageKey = 'l2k.account.token';
-  static const server = 'https://api.l2k.io';
+  static String server = 'https://api.l2k.io';
   static String get authorizationApi => '$server/auth/authorization';
   static String get tokenApi => '$server/auth/token';
   static String get accountApi => '$server/account';
