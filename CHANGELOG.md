@@ -26,5 +26,7 @@
 
 * added user.emoji
   
+## 1.0.15
 
+* html version fixed
 
