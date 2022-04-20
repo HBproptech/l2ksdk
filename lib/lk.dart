@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
-import 'dart:html' as html;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:http/http.dart' as http;
 
+import 'lk.html.dart' if (dart.library.io) "lk.html.no.dart";
 import 'lk.token.dart';
 
 // https://www.robin-janke.de/blog/oauth2-with-flutter-web/
@@ -58,7 +58,7 @@ class LK {
     final authUrl =
         '$authorizationApi?client_id=$clientId${state != null ? '&state=${Uri.encodeQueryComponent(state)}' : ''}';
     if (kIsWeb) {
-      html.window.location.href = authUrl;
+      go(authUrl);
       return null;
     }
     return await showDialog(
