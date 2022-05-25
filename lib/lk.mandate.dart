@@ -63,7 +63,27 @@ class LKGood {
   List<String> get tags {
     final List<String> tags = [];
     for (final list in description.values)
-      if (list is Iterable) for (final String s in list) tags.add(s);
+      if (list is Iterable)
+        for (final t in list) {
+          if (t is String) {
+            tags.add(t);
+          } else if (t is Map) {
+            final String tag = t['tag'];
+            if (t.containsKey('quality')) {
+              tags.add('$tag${t['quality']}');
+            } else if (t.containsKey('quantity')) {
+              final unity = t['unity'];
+              final quantity = t['quantity'];
+              if (unity != null && unity.isNotEmpty) {
+                tags.add('$tag$quantity$unity');
+              } else {
+                tags.add('$quantity$tag');
+              }
+            } else {
+              tags.add(tag);
+            }
+          }
+        }
     return tags;
   }
 

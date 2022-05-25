@@ -6,7 +6,7 @@ import 'package:l2ksdk/l2ksdk.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   LK.credentials(
-      clientId: 'l2ksdk', clientSecret: '86efde00-612a-4da7-b4e7-97b7a51f4788');
+      clientId: 'l2ksdk', clientSecret: 'a955b471-6157-4ad5-8904-895fd94c2327');
   runApp(const MyApp());
 }
 

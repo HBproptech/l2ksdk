@@ -30,3 +30,6 @@
 
 * html version fixed
 
+## 1.0.16
+
+* good.tags fixed
