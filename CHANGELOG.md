@@ -33,3 +33,8 @@
 ## 1.0.16
 
 * good.tags fixed
+
+## 1.0.17
+
+* good.persons added
+* good.enterprises added
