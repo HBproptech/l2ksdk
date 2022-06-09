@@ -73,6 +73,13 @@ class _HomeState extends State<Home> {
                                   setState(() {});
                                 },
                                 child: const Text('Afficher les mandats')),
+                            ElevatedButton(
+                                onPressed: () async {
+                                  final places = await account!.placesId(
+                                      agency: account!.agencies.first);
+                                  print(places);
+                                },
+                                child: const Text('Afficher les mandats')),
                             ____space____,
                             ElevatedButton(
                                 onPressed: () {

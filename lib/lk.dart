@@ -25,6 +25,10 @@ class LK {
   static String get accountApi => '$server/account';
   static String mandatesApi(LKAgency agency) =>
       '$server/agency/${agency.id}/mandates';
+  static String placesApi(LKAgency agency) =>
+      '$server/agency/${agency.id}/places';
+  static String searchPlaceApi(String postcode, String street, String number) =>
+      '$server/place/search?postcode=$postcode&street=$street&number=$number';
   static String documentApi(String id, {String? size}) =>
       size != null ? '$server/document/$id/$size' : '$server/document/$id';
 
