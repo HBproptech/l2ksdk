@@ -37,7 +37,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   LKAccount? account;
-  List<LKMandate> mandates = [];
+  List<LKProjectDesc> mandates = [];
   Widget get ____space____ => const SizedBox(height: 20);
   @override
   Widget build(BuildContext context) {

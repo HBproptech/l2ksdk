@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:l2ksdk/lk.mandate.dart';
+import 'package:l2ksdk/lk.project.dart';
 import 'package:l2ksdk/lk.place.dart';
 import 'package:l2ksdk/lk.token.dart';
 import 'package:http/http.dart' as http;
@@ -18,15 +18,26 @@ class LKAccount {
   String id;
   LKUser user;
   List<LKAgency> agencies;
-
-  Future<Iterable<LKMandate>> mandates({required LKAgency agency}) async {
+  Future<Iterable<LKProjectDesc>> mandates({required LKAgency agency}) async {
     final response = await http.get(Uri.parse(LK.mandatesApi(agency)),
         headers: {'Authorization': 'Bearer ${token.access}'});
     final json = jsonDecode(response.body);
     if (response.statusCode != 200) throw json['error'];
     final List<dynamic> md = json;
     if (md.isEmpty) return [];
-    return md.map((j) => LKMandate.fromJson(j));
+    return md.map((j) => LKProjectDesc.fromJson(j));
+  }
+
+  Future<Iterable<LKProjectDesc>> projects(
+      {required LKAgency agency, DateTime? begin, DateTime? end}) async {
+    final response = await http.get(
+        Uri.parse(LK.projectsApi(agency, begin: begin, end: end)),
+        headers: {'Authorization': 'Bearer ${token.access}'});
+    final json = jsonDecode(response.body);
+    if (response.statusCode != 200) throw json['error'];
+    final List<dynamic> md = json;
+    if (md.isEmpty) return [];
+    return md.map((j) => LKProjectDesc.fromJson(j));
   }
 
   Future<LKPlace> searchPlace(
