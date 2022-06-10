@@ -29,28 +29,28 @@ class LKAccount {
     return md.map((j) => LKMandate.fromJson(j));
   }
 
-  Future<LKPlace> placeFromAddress(
+  Future<LKPlace> searchPlace(
       {required String postcode,
       required String street,
       required String number}) async {
     final response = await http.get(
-        Uri.parse(LK.searchPlaceApi(postcode, street, number)),
+        Uri.parse(LK.searchPlaceApi(
+            postcode: postcode, street: street, number: number)),
         headers: {'Authorization': 'Bearer ${token.access}'});
     final json = jsonDecode(response.body);
     if (response.statusCode != 200) throw json['error'];
     return LKPlace.fromJson(json);
   }
 
-  Future<List<String>> placesId({required LKAgency agency}) async {
-    final response = await http.get(Uri.parse(LK.placesApi(agency)),
+  Future<Set<String>> placesId(
+      {required LKAgency agency, int skip = 0, int limit = 1}) async {
+    final response = await http.get(
+        Uri.parse(LK.placesApi(agency, skip: skip, limit: limit)),
         headers: {'Authorization': 'Bearer ${token.access}'});
     final json = jsonDecode(response.body);
-    if (response.statusCode != 200)
-      throw json['error'];
-    else {
-      final places = json['result'];
-      return List<String>.from(places);
-    }
+    if (response.statusCode != 200) throw json['error'];
+    final places = json['result'];
+    return Set<String>.from(places);
   }
 
   Widget document(String id, {DocSize size = DocSize.original}) =>
