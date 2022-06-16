@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:l2ksdk/lk.agency.place.dart';
-import 'package:l2ksdk/lk.mandate.dart';
+import 'package:l2ksdk/lk.project.dart';
 import 'package:l2ksdk/lk.place.dart';
 import 'package:l2ksdk/lk.token.dart';
 import 'package:http/http.dart' as http;
@@ -19,43 +19,50 @@ class LKAccount {
   String id;
   LKUser user;
   List<LKAgency> agencies;
-
-  Future<Iterable<LKMandate>> mandates({required LKAgency agency}) async {
+  Future<Iterable<LKProjectDesc>> mandates({required LKAgency agency}) async {
     final response = await http.get(Uri.parse(LK.mandatesApi(agency)),
         headers: {'Authorization': 'Bearer ${token.access}'});
     final json = jsonDecode(response.body);
     if (response.statusCode != 200) throw json['error'];
     final List<dynamic> md = json;
     if (md.isEmpty) return [];
-    return md.map((j) => LKMandate.fromJson(j));
+    return md.map((j) => LKProjectDesc.fromJson(j));
   }
 
-  Future<LKPlace> placeFromAddress(
+  Future<Iterable<LKProjectDesc>> projects(
+      {required LKAgency agency, DateTime? begin, DateTime? end}) async {
+    final response = await http.get(
+        Uri.parse(LK.projectsApi(agency, begin: begin, end: end)),
+        headers: {'Authorization': 'Bearer ${token.access}'});
+    final json = jsonDecode(response.body);
+    if (response.statusCode != 200) throw json['error'];
+    final List<dynamic> md = json;
+    if (md.isEmpty) return [];
+    return md.map((j) => LKProjectDesc.fromJson(j));
+  }
+
+  Future<LKPlace> searchPlace(
       {required String postcode,
       required String street,
       required String number}) async {
     final response = await http.get(
-        Uri.parse(LK.searchPlaceApi(postcode, street, number)),
+        Uri.parse(LK.searchPlaceApi(
+            postcode: postcode, street: street, number: number)),
         headers: {'Authorization': 'Bearer ${token.access}'});
     final json = jsonDecode(response.body);
     if (response.statusCode != 200) throw json['error'];
     return LKPlace.fromJson(json);
   }
 
-  Future<List<String>> placesId(
-      {required LKAgency agency, int? limit, int? skip}) async {
-    String? query;
-    if (limit == null) limit = 1000;
-    query = skip != null ? 'limit=$limit&skip=$skip' : 'limit=$limit';
-    final response = await http.get(Uri.parse('${LK.placesApi(agency)}?$query'),
+  Future<Set<String>> placesId(
+      {required LKAgency agency, int skip = 0, int limit = 1}) async {
+    final response = await http.get(
+        Uri.parse(LK.placesApi(agency, skip: skip, limit: limit)),
         headers: {'Authorization': 'Bearer ${token.access}'});
     final json = jsonDecode(response.body);
-    if (response.statusCode != 200)
-      throw json['error'];
-    else {
-      final places = json['result'];
-      return List<String>.from(places);
-    }
+    if (response.statusCode != 200) throw json['error'];
+    final places = json['result'];
+    return Set<String>.from(places);
   }
 
   Future<LKAgencyPlace> agencyPlaceFromId(

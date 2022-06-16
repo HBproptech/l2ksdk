@@ -2,18 +2,18 @@ import 'package:l2ksdk/lk.place.dart';
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-class LKMandate {
+class LKProjectDesc {
   String id;
   LKPlace place;
   LKProject project;
   LKGood good;
-  LKMandate(
+  LKProjectDesc(
       {required this.id,
       required this.place,
       required this.project,
       required this.good});
-  factory LKMandate.fromJson(Map<String, dynamic> map) {
-    return LKMandate(
+  factory LKProjectDesc.fromJson(Map<String, dynamic> map) {
+    return LKProjectDesc(
         id: map['id'] ?? '',
         place: LKPlace.fromJson(map['place']),
         project: LKProject.fromJson(map['project']),

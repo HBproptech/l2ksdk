@@ -25,9 +25,15 @@ class LK {
   static String get accountApi => '$server/account';
   static String mandatesApi(LKAgency agency) =>
       '$server/agency/${agency.id}/mandates';
-  static String placesApi(LKAgency agency) =>
-      '$server/agency/${agency.id}/places';
-  static String searchPlaceApi(String postcode, String street, String number) =>
+  static String projectsApi(LKAgency agency,
+          {DateTime? begin, DateTime? end}) =>
+      '$server/agency/${agency.id}/projects?begin=${begin?.toIso8601String() ?? "0000"}&end=${end?.toIso8601String() ?? "9999"}';
+  static String placesApi(LKAgency agency, {int skip = 0, limit = 1}) =>
+      '$server/agency/${agency.id}/places?skip=$skip&limit=$limit';
+  static String searchPlaceApi(
+          {required String postcode,
+          required String street,
+          required String number}) =>
       '$server/place/search?postcode=$postcode&street=$street&number=$number';
   static String placeApi(LKAgency agency, String id) =>
       '$server/agency/${agency.id}/place/$id';
