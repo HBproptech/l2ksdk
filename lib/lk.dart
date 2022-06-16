@@ -29,6 +29,8 @@ class LK {
       '$server/agency/${agency.id}/places';
   static String searchPlaceApi(String postcode, String street, String number) =>
       '$server/place/search?postcode=$postcode&street=$street&number=$number';
+  static String placeApi(LKAgency agency, String id) =>
+      '$server/agency/${agency.id}/place/$id';
   static String documentApi(String id, {String? size}) =>
       size != null ? '$server/document/$id/$size' : '$server/document/$id';
 

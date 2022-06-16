@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:l2ksdk/lk.agency.place.dart';
 import 'package:l2ksdk/lk.mandate.dart';
 import 'package:l2ksdk/lk.place.dart';
 import 'package:l2ksdk/lk.token.dart';
@@ -41,8 +42,12 @@ class LKAccount {
     return LKPlace.fromJson(json);
   }
 
-  Future<List<String>> placesId({required LKAgency agency}) async {
-    final response = await http.get(Uri.parse(LK.placesApi(agency)),
+  Future<List<String>> placesId(
+      {required LKAgency agency, int? limit, int? skip}) async {
+    String? query;
+    if (limit == null) limit = 1000;
+    query = skip != null ? 'limit=$limit&skip=$skip' : 'limit=$limit';
+    final response = await http.get(Uri.parse('${LK.placesApi(agency)}?$query'),
         headers: {'Authorization': 'Bearer ${token.access}'});
     final json = jsonDecode(response.body);
     if (response.statusCode != 200)
@@ -51,6 +56,15 @@ class LKAccount {
       final places = json['result'];
       return List<String>.from(places);
     }
+  }
+
+  Future<LKAgencyPlace> agencyPlaceFromId(
+      {required LKAgency agency, required String id}) async {
+    final response = await http.get(Uri.parse(LK.placeApi(agency, id)),
+        headers: {'Authorization': 'Bearer ${token.access}'});
+    final json = jsonDecode(response.body);
+    if (response.statusCode != 200) throw json['error'];
+    return LKAgencyPlace.fromJson(json['value']);
   }
 
   Widget document(String id, {DocSize size = DocSize.original}) =>
