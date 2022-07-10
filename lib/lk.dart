@@ -49,6 +49,13 @@ class LK {
     LK.clientSecret = clientSecret;
   }
 
+  static Future<LKAccount?> refreshAccount() async {
+    final data = await storage.read(key: storageKey);
+    if (data == null) return null;
+    final token = LKToken.fromJson(jsonDecode(data));
+    return await _account(token);
+  }
+
   static Future<LKAccount?> silentSignIn() async {
     final data = await storage.read(key: storageKey);
     if (data == null) return null;

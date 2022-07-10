@@ -19,6 +19,15 @@ class LKAccount {
   String id;
   LKUser user;
   List<LKAgency> agencies;
+
+  Widget avatar(BuildContext context) =>
+      user.picture != null && user.picture!.isNotEmpty
+          ? Container()
+          : Container();
+
+  Future<void> refresh() async {
+    
+  }
   Future<Iterable<LKProjectDesc>> mandates({required LKAgency agency}) async {
     final response = await http.get(Uri.parse(LK.mandatesApi(agency)),
         headers: {'Authorization': 'Bearer ${token.access}'});

@@ -38,3 +38,11 @@
 
 * good.persons added
 * good.enterprises added
+  
+## 1.0.18
+
+* some fixes
+
+## 1.0.19
+
+* LK.refreshAccount()
