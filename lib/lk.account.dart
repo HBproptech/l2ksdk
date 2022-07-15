@@ -25,9 +25,12 @@ class LKAccount {
           ? Container()
           : Container();
 
-  Future<void> refresh() async {
-    
+  Future<String> refresh() async {
+    final response = await http.get(Uri.parse(LK.refreshApi),
+        headers: {'Authorization': 'Bearer ${token.access}'});
+    return response.body;
   }
+
   Future<Iterable<LKProjectDesc>> mandates({required LKAgency agency}) async {
     final response = await http.get(Uri.parse(LK.mandatesApi(agency)),
         headers: {'Authorization': 'Bearer ${token.access}'});

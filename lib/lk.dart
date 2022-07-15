@@ -23,6 +23,7 @@ class LK {
   static String get authorizationApi => '$server/auth/authorization';
   static String get tokenApi => '$server/auth/token';
   static String get accountApi => '$server/account';
+  static String get refreshApi => '$server/account/refresh';
   static String mandatesApi(LKAgency agency) =>
       '$server/agency/${agency.id}/mandates';
   static String projectsApi(LKAgency agency,
@@ -47,13 +48,6 @@ class LK {
       {required String clientId, required String clientSecret}) {
     LK.clientId = clientId;
     LK.clientSecret = clientSecret;
-  }
-
-  static Future<LKAccount?> refreshAccount() async {
-    final data = await storage.read(key: storageKey);
-    if (data == null) return null;
-    final token = LKToken.fromJson(jsonDecode(data));
-    return await _account(token);
   }
 
   static Future<LKAccount?> silentSignIn() async {

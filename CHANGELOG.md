@@ -46,3 +46,8 @@
 ## 1.0.19
 
 * LK.refreshAccount()
+
+## 1.0.20
+
+* replaced LK.refreshAccount() by account.refresh()
+  
