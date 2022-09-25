@@ -43,11 +43,15 @@ class LK {
 
   static String clientId = '';
   static String clientSecret = '';
+  static String? redirectUri;
 
   static void credentials(
-      {required String clientId, required String clientSecret}) {
+      {required String clientId,
+      required String clientSecret,
+      String? redirectUri}) {
     LK.clientId = clientId;
     LK.clientSecret = clientSecret;
+    LK.redirectUri = redirectUri;
   }
 
   static Future<LKAccount?> silentSignIn() async {
@@ -69,7 +73,7 @@ class LK {
     final account = await silentSignIn();
     if (account != null) return account;
     final authUrl =
-        '$authorizationApi?client_id=$clientId${state != null ? '&state=${Uri.encodeQueryComponent(state)}' : ''}';
+        '$authorizationApi?client_id=$clientId${state != null ? '&state=${Uri.encodeQueryComponent(state)}' : ''}${redirectUri != null ? '&redirect_uri=${Uri.encodeQueryComponent(redirectUri!)}' : ''}';
     if (kIsWeb) {
       go(authUrl);
       return null;

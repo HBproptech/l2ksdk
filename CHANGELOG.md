@@ -51,3 +51,12 @@
 
 * replaced LK.refreshAccount() by account.refresh()
   
+## 1.0.21
+
+* pub upgrade
+  
+## 1.0.22
+
+* pub upgrade
+* added redirectUri credentials
+  
