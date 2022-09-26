@@ -38,7 +38,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   LKAccount? account;
   List<LKProjectDesc> mandates = [];
-  Widget get ____space____ => const SizedBox(height: 20);
+  Widget get space => const SizedBox(height: 20);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          ____space____,
+                          space,
                           if (account == null)
                             ElevatedButton(
                                 onPressed: () async {
@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
                           if (account != null) ...[
                             Text(
                                 '${account!.user.firstname} ${account!.user.lastname}'),
-                            ____space____,
+                            space,
                             ElevatedButton(
                                 onPressed: () async {
                                   mandates.clear();
@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
                                           id: places.first);
                                 },
                                 child: const Text('Récupérer place')),
-                            ____space____,
+                            space,
                             ElevatedButton(
                                 onPressed: () {
                                   LK.signOut();
@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
                                 },
                                 child: const Text('Se deconnecter')),
                             if (mandates.isNotEmpty) ...[
-                              ____space____,
+                              space,
                               ...mandates.map((m) => Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -126,7 +126,7 @@ class _HomeState extends State<Home> {
                                                             Colors.cyanAccent),
                                                     child: Text(t)))
                                                 .toList()),
-                                        ____space____,
+                                        space,
                                         SizedBox(
                                             height: 64,
                                             child: ListView.separated(
@@ -141,7 +141,7 @@ class _HomeState extends State<Home> {
                                                     const SizedBox(width: 5),
                                                 itemCount:
                                                     m.good.pictures.length)),
-                                        ____space____
+                                        space
                                       ]))
                             ]
                           ]
