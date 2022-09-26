@@ -60,3 +60,7 @@
 * pub upgrade
 * added redirectUri credentials
   
+## 1.0.23
+
+* pub upgrade
+* lil fix redirectUri credentials
