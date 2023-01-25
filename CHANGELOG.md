@@ -64,3 +64,7 @@
 
 * pub upgrade
 * lil fix redirectUri credentials
+
+## 1.0.24
+
+* pub upgrade
