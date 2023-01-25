@@ -78,6 +78,24 @@ class LK {
       go(authUrl);
       return null;
     }
+    final controller = WebViewController()
+      ..setNavigationDelegate(
+          NavigationDelegate(onNavigationRequest: (req) async {
+        if (req.url.contains('l2k://')) {
+          try {
+            final uri = Uri.parse(req.url);
+            final account = await codeSignIn(
+                code: uri.queryParameters['code']!,
+                state: uri.queryParameters['state']!);
+            Navigator.pop(context, account);
+          } catch (error) {
+            dev.log(error.toString());
+          }
+          return NavigationDecision.prevent;
+        }
+        return NavigationDecision.navigate;
+      }))
+      ..loadRequest(Uri.parse(authUrl));
     return await showDialog(
         context: context,
         builder: (context) => Dialog(
@@ -87,23 +105,9 @@ class LK {
                 child: Container(
                     width: 400,
                     height: 500,
-                    child: WebView(
-                        initialUrl: authUrl,
-                        navigationDelegate: (req) async {
-                          if (req.url.contains('l2k://')) {
-                            try {
-                              final uri = Uri.parse(req.url);
-                              final account = await codeSignIn(
-                                  code: uri.queryParameters['code']!,
-                                  state: uri.queryParameters['state']!);
-                              Navigator.pop(context, account);
-                            } catch (error) {
-                              dev.log(error.toString());
-                            }
-                            return NavigationDecision.prevent;
-                          }
-                          return NavigationDecision.navigate;
-                        })))));
+                    child: WebViewWidget(
+                      controller: controller,
+                    )))));
   }
 
   static Future<LKAccount?> codeSignIn(
