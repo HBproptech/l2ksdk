@@ -1,7 +1,7 @@
 name: l2ksdk
 description: Leads2Keys Flutter
 homepage: https://github.com/HBproptech/l2ksdk
-version: 1.0.24
+version: 1.0.25
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
@@ -13,8 +13,8 @@ dependencies:
   cupertino_icons: ^1.0.5
 
   http: ^0.13.5
-  webview_flutter: ^4.0.2
-  flutter_secure_storage: ^7.0.1
+  webview_flutter: ^4.0.7
+  flutter_secure_storage: ^8.0.0
 
 dev_dependencies:
   flutter_test:

@@ -69,3 +69,7 @@
 
 * pub upgrade
 * webview updated
+
+## 1.0.25
+
+* pub upgrade
